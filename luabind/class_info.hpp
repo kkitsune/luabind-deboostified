@@ -32,7 +32,7 @@ namespace luabind
 {
 	struct LUABIND_API class_info
 	{	
-		std::string name;
+        luabind::string name;
 		object methods;
 		object attributes;
 	};

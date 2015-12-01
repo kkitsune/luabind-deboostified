@@ -73,16 +73,16 @@ namespace luabind { namespace detail {
 
         const char* m_name;
 
-        mutable std::map<const char*, int, detail::ltstr> m_static_constants;
+        mutable luabind::map<const char*, int, detail::ltstr> m_static_constants;
 
         typedef std::pair<type_id, cast_function> base_desc;
-        mutable std::vector<base_desc> m_bases;
+        mutable luabind::vector<base_desc> m_bases;
 
         type_id m_type;
         class_id m_id;
         class_id m_wrapper_id;
         type_id m_wrapper_type;
-        std::vector<cast_entry> m_casts;
+        luabind::vector<cast_entry> m_casts;
 
         scope m_scope;
         scope m_members;
@@ -171,7 +171,7 @@ namespace luabind { namespace detail {
 			casts->insert(e.src, e.target, e.cast);
 		}
 
-        for (std::vector<base_desc>::iterator i = m_bases.begin();
+        for (luabind::vector<base_desc>::iterator i = m_bases.begin();
             i != m_bases.end(); ++i)
         {
             LUABIND_CHECK_STACK(L);
@@ -241,8 +241,8 @@ namespace luabind { namespace detail {
     // -- interface ---------------------------------------------------------
 
     class_base::class_base(char const* name)
-        : scope(std::unique_ptr<registration>(
-                m_registration = new class_registration(name))
+        : scope(luabind::unique_ptr<registration>(
+                m_registration = luabind_new<class_registration>(name))
           )
     {
     }
@@ -264,13 +264,13 @@ namespace luabind { namespace detail {
 
 	void class_base::add_member(registration* member)
 	{
-		std::unique_ptr<registration> ptr(member);
+        luabind::unique_ptr<registration> ptr(member);
 		m_registration->m_members.operator,(scope(std::move(ptr)));
 	}
 
 	void class_base::add_default_member(registration* member)
 	{
-		std::unique_ptr<registration> ptr(member);
+		luabind::unique_ptr<registration> ptr(member);
 		m_registration->m_default_members.operator,(scope(std::move(ptr)));
 	}
 
@@ -295,16 +295,16 @@ namespace luabind { namespace detail {
         m_registration->m_casts.push_back(cast_entry(src, target, cast));
     }
 
-	void add_custom_name(type_id const& i, std::string& s)
+	void add_custom_name(type_id const& i, luabind::string& s)
 	{
 		s += " [";
 		s += i.name();
 		s += "]";
 	}
 
-    std::string get_class_name(lua_State* L, type_id const& i)
+    luabind::string get_class_name(lua_State* L, type_id const& i)
     {
-        std::string ret;
+        luabind::string ret;
 
 		assert(L);
 

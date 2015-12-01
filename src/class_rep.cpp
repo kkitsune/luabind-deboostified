@@ -174,7 +174,7 @@ void luabind::detail::class_rep::add_base_class(const luabind::detail::class_rep
 	class_rep* bcrep = binfo.base;
 
 	// import all static constants
-	for (std::map<const char*, int, ltstr>::const_iterator i = bcrep->m_static_constants.begin(); 
+	for (luabind::map<const char*, int, ltstr>::const_iterator i = bcrep->m_static_constants.begin();
 			i != bcrep->m_static_constants.end(); ++i)
 	{
 		int& v = m_static_constants[i->first];
@@ -280,7 +280,7 @@ int luabind::detail::class_rep::static_class_gettable(lua_State* L)
 		return 1;
 	}
 
-	std::map<const char*, int, ltstr>::const_iterator j = crep->m_static_constants.find(key);
+    luabind::map<const char*, int, ltstr>::const_iterator j = crep->m_static_constants.find(key);
 
 	if (j != crep->m_static_constants.end())
 	{
@@ -336,7 +336,7 @@ void luabind::detail::finalize(lua_State* L, class_rep* crep)
 		lua_call(L, 1, 0);
 	}
 
-	for (std::vector<class_rep::base_info>::const_iterator 
+	for (luabind::vector<class_rep::base_info>::const_iterator
 			i = crep->bases().begin(); i != crep->bases().end(); ++i)
 	{
 		if (i->base) finalize(L, i->base);

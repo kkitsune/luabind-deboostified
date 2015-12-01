@@ -5,10 +5,6 @@
 #define LUABIND_BUILDING
 
 #include <limits>
-#include <map>
-#include <vector>
-#include <queue>
-#include <vector>
 #include <luabind/typeid.hpp>
 #include <luabind/detail/inheritance.hpp>
 
@@ -43,7 +39,7 @@ namespace luabind {
 				{}
 
 				class_id id;
-				std::vector<edge> edges;
+                luabind::vector<edge> edges;
 			};
 
 			typedef std::pair<std::ptrdiff_t, int> cache_entry;
@@ -61,7 +57,7 @@ namespace luabind {
 
 			private:
 				typedef std::tuple<class_id, class_id, class_id, std::ptrdiff_t> key_type;
-				typedef std::map<key_type, cache_entry> map_type;
+				typedef luabind::map<key_type, cache_entry> map_type;
 				map_type m_cache;
 			};
 
@@ -96,7 +92,7 @@ namespace luabind {
 			void insert(class_id src, class_id target, cast_function cast);
 
 		private:
-			std::vector<vertex> m_vertices;
+            luabind::vector<vertex> m_vertices;
 			mutable cache m_cache;
 		};
 
@@ -133,14 +129,14 @@ namespace luabind {
 				return std::make_pair((char*)p + cached.first, cached.second);
 			}
 
-			std::queue<queue_entry> q;
+            luabind::queue<queue_entry> q;
 			q.push(queue_entry(p, src, 0));
 
 			// Original source used boost::dynamic_bitset but didn't make use
 			// of its advanced capability of set operations, that's why I think
-			// it's safe to use a std::vector<bool> here.
+			// it's safe to use a luabind::vector<bool> here.
 
-			std::vector<bool> visited(m_vertices.size(),false);
+            luabind::vector<bool> visited(m_vertices.size(),false);
 
 			while (!q.empty())
 			{
@@ -184,9 +180,9 @@ namespace luabind {
 					m_vertices.push_back(vertex(i));
 			}
 
-			std::vector<edge>& edges = m_vertices[src].edges;
+            luabind::vector<edge>& edges = m_vertices[src].edges;
 
-			std::vector<edge>::iterator i = std::lower_bound(
+            luabind::vector<edge>::iterator i = std::lower_bound(
 				edges.begin(), edges.end(), edge(target, 0)
 			);
 
@@ -208,7 +204,7 @@ namespace luabind {
 		}
 
 		cast_graph::cast_graph()
-			: m_impl(new impl)
+			: m_impl(luabind_new<impl>())
 		{}
 
 		cast_graph::~cast_graph()
@@ -216,6 +212,8 @@ namespace luabind {
 
 		LUABIND_API class_id allocate_class_id(type_id const& cls)
 		{
+            // use plain map here because this function is called by static initializers,
+            // so luabind::allocator is not set yet
 			typedef std::map<type_id, class_id> map_type;
 
 			static map_type registered;

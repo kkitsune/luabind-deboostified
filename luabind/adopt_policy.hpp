@@ -90,7 +90,7 @@ namespace luabind { namespace detail
     template <class T>
     struct pointer_or_default<void, T>
     {
-        typedef std::unique_ptr<T> type;
+        typedef luabind::unique_ptr<T> type;
     };
 
 	template <class Pointer>

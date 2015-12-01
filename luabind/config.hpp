@@ -116,5 +116,7 @@ const int no_match = -(detail::max_argument_count*detail::max_hierarchy_depth + 
 
 } // namespace luabind
 
+#include <luabind/types.hpp>
+
 #endif // LUABIND_CONFIG_HPP_INCLUDED
 

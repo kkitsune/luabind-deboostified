@@ -109,12 +109,12 @@ namespace luabind
     {
         detail::class_registry* reg = detail::class_registry::get_registry(L);
 
-        std::map<type_id, detail::class_rep*> const& classes = reg->get_classes();
+        luabind::map<type_id, detail::class_rep*> const& classes = reg->get_classes();
 
         object result = newtable(L);
         std::size_t index = 1;
 
-        for (std::map<type_id, detail::class_rep*>::const_iterator iter = classes.begin();
+        for (luabind::map<type_id, detail::class_rep*>::const_iterator iter = classes.begin();
             iter != classes.end(); ++iter)
         {
             result[index++] = iter->second->name();

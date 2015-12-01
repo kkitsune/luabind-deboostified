@@ -38,7 +38,7 @@ namespace luabind {
 
 		private:
 			class impl;
-			std::unique_ptr<impl> m_impl;
+			luabind::unique_ptr<impl> m_impl;
 		};
 
 		// Maps a type_id to a class_id. Note that this actually partitions the
@@ -55,7 +55,7 @@ namespace luabind {
 			void put(class_id id, type_id const& type);
 
 		private:
-			typedef std::map<type_id, class_id> map_type;
+			typedef luabind::map<type_id, class_id> map_type;
 			map_type m_classes;
 			class_id m_local_id;
 
@@ -108,7 +108,7 @@ namespace luabind {
 			void put(class_id id, class_rep* cls);
 
 		private:
-			std::vector<class_rep*> m_classes;
+            luabind::vector<class_rep*> m_classes;
 		};
 
 		inline class_rep* class_map::get(class_id id) const
