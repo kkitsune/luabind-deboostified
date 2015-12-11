@@ -98,12 +98,12 @@ namespace luabind { namespace detail {
         return *this;
     }
 
-    void scope::register_(lua_State* L) const
+    void scope::register_(lua_State* L, bool default_scope /*= false*/) const
     {
         for (detail::registration* r = m_chain; r != 0; r = r->m_next)
         {
 			LUABIND_CHECK_STACK(L);
-            r->register_(L);
+            r->register_(L, default_scope);
         }
     }
 
@@ -168,7 +168,7 @@ namespace luabind {
         {
         }
 
-        void register_(lua_State* L) const
+        void register_(lua_State* L, bool /*default_scope = false*/) const
         {
 			LUABIND_CHECK_STACK(L);
             assert(lua_gettop(L) >= 1);
