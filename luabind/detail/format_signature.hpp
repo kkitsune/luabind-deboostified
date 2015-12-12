@@ -122,7 +122,7 @@ LUABIND_TYPE_TO_STRING(luabind::argument)
 		}
 
 		template <class Signature>
-		void format_signature(lua_State* L, char const* function, Signature)
+		int format_signature(lua_State* L, char const* function, Signature, bool concat = true)
 		{
 			//typedef typename mpl::begin<Signature>::type first;
 			using first = typename meta::front<Signature>::type;
@@ -143,7 +143,12 @@ LUABIND_TYPE_TO_STRING(luabind::argument)
             size_t ncat = sz * 2 + 2;
             if (sz == 1)
                 ++ncat;
-            lua_concat(L, ncat);
+            if (concat)
+            {
+                lua_concat(L, ncat);
+                ncat = 1;
+            }
+            return ncat;
 		}
 
 	} // namespace detail
