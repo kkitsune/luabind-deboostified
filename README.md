@@ -1,7 +1,10 @@
 luabind
 =======
+This is a customized luabind fork that's used by [X-Ray Engine](https://github.com/OpenXRay/xray-16).
+Comparing to the old version (presumably beta7-devel-rc4) previously used in X-Ray, this version speeds up xrGame (the most heavy engine module) compilation by about 100%.
+
 Currently, at least the following compilers are supported:
-- MSVC 2013 Update 3
+- MSVC 2015
 - Clang/LLVM 3.6.0
 - G++ 4.9
 
